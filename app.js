@@ -42,8 +42,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 // appId & appPassword settings are generally required and will be generated when registering your bot in the developer portal
 // Retrieve appId & appPassword settings from environment variables. This sets up the bot to support storing these values in a config file when deployed to a hosting service like Microsoft Azure
 var connector = new builder.ChatConnector({
-    //appId: process.env.MICROSOFT_APP_ID,
-    //appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
 // Handle Bot Framework messages
