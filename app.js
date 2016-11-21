@@ -143,6 +143,31 @@ bot.dialog('/', intents);
 
 
 // Add intent handlers
+intents.matches('welcome', [
+    function (session) { 
+         if (!session.userData.city) {
+            builder.Prompts.text(session, "Hey there, in which city do you need informations about Meetups?" ); 
+         }
+         else{ 
+             builder.Prompts.text(session, "Hey there!" ); 
+            }
+     }, 
+     function (session, results) { 
+         // We'll save the users name and send them an initial greeting. All  
+         // future messages from the user will be routed to the root dialog. 
+         session.userData.city = results.response; 
+         city= session.userData.city;
+         session.send("Nice, %s is a cool city ;)", session.userData.city); 
+         if(!oauth_token){
+            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in: %s", redirectUri); 
+         }
+         else{
+             session.endDialog("You can ask me anything regarding meetups."); 
+         }
+     }
+]);
+
+
 intents.matches('getDate', [
     function (session, args, next) {
         var eventName = builder.EntityRecognizer.findEntity(args.entities, 'EventName');
