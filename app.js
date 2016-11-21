@@ -10,7 +10,7 @@ var accessTokens = 'https://secure.meetup.com/oauth2/access';
 // OAuth2 variables for authenticating with the Meetup API
 
 // URL for requesting authorisation
-var redirectUri = 'https://secure.meetup.com/oauth2/authorize?client_id=ofgbuddccntus3nqm7mkrlrfi3&response_type=code&redirect_uri=http://localhost:3978/api/oauthcallback';
+var redirectUri = 'https://secure.meetup.com/oauth2/authorize?client_id=ofgbuddccntus3nqm7mkrlrfi3&response_type=code&redirect_uri=https://eventbot.azurewebsites.net/api/oauthcallback';
 // URL for requesting access token
 var address = 'https://secure.meetup.com/oauth2/access';
 
