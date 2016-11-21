@@ -1,3 +1,4 @@
+"use strict";
 var sprintf = require('sprintf-js');
 var utils = require('./utils');
 var hc = require('./cards/HeroCard');
@@ -211,7 +212,7 @@ var Message = (function () {
         return args && args.length > 0 ? sprintf.vsprintf(prompt, args) : prompt;
     };
     Message.prototype.setLanguage = function (local) {
-        console.warn("Message.setLanguage() is deprecated. Use Message.local() instead.");
+        console.warn("Message.setLanguage() is deprecated. Use Message.textLocal() instead.");
         return this.textLocale(local);
     };
     Message.prototype.setText = function (session, prompts) {
@@ -250,7 +251,7 @@ var Message = (function () {
         return this.sourceEvent({ '*': data });
     };
     return Message;
-})();
+}());
 exports.Message = Message;
 function fmtText(session, prompts, args) {
     var fmt = Message.randomPrompt(prompts);

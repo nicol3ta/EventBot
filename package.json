@@ -1,43 +1,19 @@
 {
-
-  "name": "eventbot",
-
+  "name": "EventBot",
   "version": "1.0.0",
-
   "description": "A sample bot for getting started with Bot Framework",
-
   "main": "app.js",
-
-  "scripts": {
-
-    "test": ""
-
-  },
-
   "repository": {
-
     "type": "git",
-
     "url": "https://github.com/nicol3ta/EventBot"
-
   },
-
   "keywords": [
-
     "botframework"
-
   ],
-
   "author": "Nicoleta",
-
   "homepage": "https://github.com/nicol3ta/EventBot#readme",
-
   "dependencies": {
-
-    "botbuilder": "^0.6.5",
-
-    "restify": "^4.0.4"
-
+    "botbuilder": "^3.4.4",
+    "restify": "^4.3.0"
   }
-
 }
