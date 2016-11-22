@@ -10,7 +10,7 @@ var accessTokens = 'https://secure.meetup.com/oauth2/access';
 // OAuth2 variables for authenticating with the Meetup API
 
 // URL for requesting authorisation
-var redirectUri = 'https://secure.meetup.com/oauth2/authorize?client_id=ofgbuddccntus3nqm7mkrlrfi3&response_type=code&redirect_uri=';
+var redirectUri = 'https://secure.meetup.com/oauth2/authorize?client_id=ofgbuddccntus3nqm7mkrlrfi3&response_type=code&redirect_uri=https://eventbot.azurewebsites.net';
 //https://eventbot.azurewebsites.net/api/oauthcallback
 
 // URL for requesting access token
@@ -135,8 +135,7 @@ bot.dialog('/', intents);
          session.send("Nice, %s is a cool city ;)", session.userData.city); 
          if(!oauth_token){
             var clientAddress = JSON.stringify(session.message.address);  
-            console.log(" " + clientAddress);
-            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in: %s"  + clientAddress +"  URI: " , redirectUri+""+clientAddress); 
+            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in: %s"  , redirectUri); 
          }
          else{
              session.endDialog("You can ask me anything regarding meetups."); 
@@ -164,7 +163,7 @@ intents.matches('welcome', [
          session.send("Nice, %s is a cool city ;)", session.userData.city); 
          if(!oauth_token){
             //var clientAddress = JSON.parse(session.message.address); 
-            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in:"   +redirectUri+"https://directline.botframework.com");  
+            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in:" + redirectUri);  
          }
          else{
              session.endDialog("You can ask me anything regarding meetups."); 
