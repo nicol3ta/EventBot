@@ -134,7 +134,7 @@ bot.dialog('/', intents);
          city= session.userData.city;
          session.send("Nice, %s is a cool city ;)", session.userData.city); 
          if(!oauth_token){
-            var clientAddress = encodeURIComponent(JSON.stringify(session.message.address));  
+            var clientAddress = JSON.stringify(session.message.address);  
             console.log(" " + clientAddress);
             session.endDialog("You can ask me anything regarding meetups. \n But first please sign in: %s"  + clientAddress +"  URI: " , redirectUri+""+clientAddress); 
          }
