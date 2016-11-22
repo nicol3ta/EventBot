@@ -51,13 +51,14 @@ var bot = new builder.UniversalBot(connector);
 // Handle Bot Framework messages
 server.post('/api/messages', connector.listen());
 
-// Serve a static web page
+// Serve a static web page 
+//server.get(/.*/, restify.serveStatic({
+//	'directory': '.',
+//	'default': 'index.html'
+//
+//}));
 
-server.get(/.*/, restify.serveStatic({
-	'directory': '.',
-	'default': 'index.html'
 
-}));
 
 // Create oauth callback endpoint
 server.get("/api/oauthcallback", function (req, res, next) {  
