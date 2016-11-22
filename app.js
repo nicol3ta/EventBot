@@ -163,8 +163,8 @@ intents.matches('welcome', [
          city= session.userData.city;
          session.send("Nice, %s is a cool city ;)", session.userData.city); 
          if(!oauth_token){
-              var clientAddress = JSON.stringify(session.message.address); 
-            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in: %s"  + clientAddress +"  URI: " , redirectUri+""+clientAddress);  
+              var clientAddress = JSON.parse(session.message.address); 
+            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in: %s"  + clientAddress.serviceUrl +"  URI: " , redirectUri+clientAddress.serviceUrl);  
          }
          else{
              session.endDialog("You can ask me anything regarding meetups."); 
