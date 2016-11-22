@@ -74,7 +74,7 @@ var body = {
     client_id: 'ofgbuddccntus3nqm7mkrlrfi3',
     client_secret: 'i9m1hgmfif5nhvtkr0vurkdaq3', 
     grant_type: 'authorization_code', 
-    redirect_uri: 'http://localhost:3978/api/oauthcallback', 
+    redirect_uri: 'https://eventbot.azurewebsites.net/api/oauthcallback', 
     code: code
 };
 
