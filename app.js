@@ -58,6 +58,16 @@ server.post('/api/messages', connector.listen());
 //
 //}));
 
+function createSigninCard(session) {
+
+    return new builder.SigninCard(session)
+
+        .text('Please authenticate first with Meetup.com')
+
+        .button('Sign-in', redirectUri)
+
+}
+
 
 
 // Create oauth callback endpoint
@@ -164,7 +174,11 @@ intents.matches('welcome', [
          session.send("Nice, %s is a cool city ;)", session.userData.city); 
          if(!oauth_token){
             //var clientAddress = JSON.parse(session.message.address); 
-            session.endDialog("You can ask me anything regarding meetups. \n But first please sign in:" + redirectUri);  
+            var card = createSigninCard(session);
+            // attach the card to the reply message
+            var msg = new builder.Message(session).addAttachment(card);
+            session.send(msg);
+            //session.endDialog("You can ask me anything regarding meetups. \n But first please sign in:" + redirectUri);  
          }
          else{
              session.endDialog("You can ask me anything regarding meetups."); 
