@@ -1,3 +1,4 @@
 
 azure.err
 *.publishsettings
+node_modules/
