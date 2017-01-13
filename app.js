@@ -152,7 +152,15 @@ bot.dialog('/', intents);
 
 
 // Add intent handlers
+
 intents.matches('welcome', [
+    function (session) { 
+            session.send("Hey there, I'm your Meetup expert bot. You can ask me when and where meetups take place. Try 'When is the next Azure Meetup?'" ); 
+     }
+]);
+
+/*
+intents.matches('whielcome', [
     function (session) { 
             builder.Prompts.text(session, "Hey there, in which city do you need informations about Meetups?" ); 
      }, 
@@ -172,19 +180,35 @@ intents.matches('welcome', [
              session.endDialog("You can ask me anything regarding meetups."); 
          }
      }
-]);
+]);*/
 
 
 intents.matches('getDate', [
     function (session, args, next) {
         var eventName = builder.EntityRecognizer.findEntity(args.entities, 'EventName');
-        if (!eventName) {
-            builder.Prompts.text(session, "What's the meetup called?");
-        } else {
-            next({ response: eventName.entity });
+        if(eventName) {
+            session.userData.eventName = eventName.entity;
+        }
+        var location = builder.EntityRecognizer.findEntity(args.entities, 'Location');
+        if(!location && !session.userData.city) {
+            builder.Prompts.text(session, "In which city do you need informations about Meetups?" ); 
+        }
+        else {
+            next({ response: location.entity });
         }
     },
-    function (session, results) {
+    function (session, results, next) {
+        if (results.response) {
+            session.userData.city = results.response;
+            if(!session.userData.eventName){
+                builder.Prompts.text(session, "What's the meetup called?" ); 
+            } else {
+            next({ response: session.userData.eventName});}
+        }else {
+            session.send("Ok");
+        }
+    },
+    function(session, results){
         if (results.response) {
             // search date for this event 
             session.send("Looking for the date of the next " + results.response + " meetup");
