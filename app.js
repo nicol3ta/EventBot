@@ -162,6 +162,7 @@ intents.matches('welcome', [
             session.send(msg);  
          }
          else{
+             session.userData.city = null;
              session.send("Hey there, I'm your Meetup expert bot. You can ask me when and where meetups take place. Try 'When is the next Azure Meetup?'" ); 
          }
      }
