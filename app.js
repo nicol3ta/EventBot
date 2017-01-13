@@ -127,7 +127,7 @@ bot.dialog('/', intents);
 
 // Install First Run middleware and dialog 
  bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' })); 
- bot.dialog('/firstRun', [ 
+ /*bot.dialog('/firstRun', [ 
      function (session) { 
             builder.Prompts.text(session, "Hey there, in which city do you need informations about Meetups?" ); 
      }, 
@@ -149,13 +149,21 @@ bot.dialog('/', intents);
      }
  ]); 
 
-
+*/
 
 // Add intent handlers
 
 intents.matches('welcome', [
     function (session) { 
-            session.send("Hey there, I'm your Meetup expert bot. You can ask me when and where meetups take place. Try 'When is the next Azure Meetup?'" ); 
+            if(!oauth_token){           
+            var card = createSigninCard(session);
+            // attach the card to the reply message
+            var msg = new builder.Message(session).addAttachment(card);
+            session.send(msg);  
+         }
+         else{
+             session.send("Hey there, I'm your Meetup expert bot. You can ask me when and where meetups take place. Try 'When is the next Azure Meetup?'" ); 
+         }
      }
 ]);
 
