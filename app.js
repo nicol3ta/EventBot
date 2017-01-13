@@ -126,7 +126,7 @@ bot.dialog('/', intents);
 
 
 // Install First Run middleware and dialog 
- bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' })); 
+ //bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' })); 
  /*bot.dialog('/firstRun', [ 
      function (session) { 
             builder.Prompts.text(session, "Hey there, in which city do you need informations about Meetups?" ); 
@@ -197,8 +197,11 @@ intents.matches('getDate', [
         if(eventName) {
             session.userData.eventName = eventName.entity;
         }
+        else{
+            session.userData.eventName = null;
+        }
         var location = builder.EntityRecognizer.findEntity(args.entities, 'Location');
-        if(!location && !session.userData.city) {
+        if(!location) {
             builder.Prompts.text(session, "In which city do you need informations about Meetups?" ); 
         }
         else {
@@ -211,7 +214,7 @@ intents.matches('getDate', [
             if(!session.userData.eventName){
                 builder.Prompts.text(session, "What's the meetup called?" ); 
             } else {
-            next({ response: session.userData.eventName});}
+                next({ response: session.userData.eventName});}
         }else {
             session.send("Ok");
         }
@@ -294,7 +297,7 @@ var client = restify.createStringClient({
 
 var l = "";
 
-client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+city+'&page=20', function(err, req, res, obj) {
+client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+session.userData.city+'&page=20', function(err, req, res, obj) {
     assert.ifError(err);
     console.log("hmm");
     console.log("we got smth :" + obj);
