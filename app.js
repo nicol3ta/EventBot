@@ -155,7 +155,7 @@ bot.dialog('/', intents);
 
 intents.matches('welcome', [
     function (session) { 
-            if(!oauth_token){           
+        if(!oauth_token){           
             var card = createSigninCard(session);
             // attach the card to the reply message
             var msg = new builder.Message(session).addAttachment(card);
@@ -201,7 +201,10 @@ intents.matches('getDate', [
             session.userData.eventName = null;
         }
         var location = builder.EntityRecognizer.findEntity(args.entities, 'Location');
-        if(!location) {
+        if(location) {
+            session.userData.city = location.entity;
+        }
+        if(!session.userData.city) {
             builder.Prompts.text(session, "In which city do you need informations about Meetups?" ); 
         }
         else {
@@ -267,7 +270,7 @@ var client = restify.createStringClient({
 
 var d = "";
 
-client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+city+'&page=20', function(err, req, res, obj) {
+client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+session.userData.city+'&page=20', function(err, req, res, obj) {
     assert.ifError(err);
     console.log("hmm");
     console.log("we got smth :" + obj);
