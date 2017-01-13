@@ -162,7 +162,6 @@ intents.matches('welcome', [
             session.send(msg);  
          }
          else{
-             session.userData.city = null;
              session.send("Hey there, I'm your Meetup expert bot. You can ask me when and where meetups take place. Try 'When is the next Azure Meetup?'" ); 
          }
      }
@@ -204,12 +203,14 @@ intents.matches('getDate', [
         var location = builder.EntityRecognizer.findEntity(args.entities, 'Location');
         if(location) {
             session.userData.city = location.entity;
+        }else {
+            session.userData.city = null;
         }
         if(!session.userData.city) {
             builder.Prompts.text(session, "In which city do you need informations about Meetups?" ); 
         }
         else {
-            next({ response: location.entity });
+            next({ response: session.userData.city });
         }
     },
     function (session, results, next) {
