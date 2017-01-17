@@ -21,6 +21,8 @@ var refresh_token;
 
 // City where the user attends meetups
 var city;
+var name;
+var url;
 
 
 //=========================================================
@@ -63,10 +65,29 @@ function createSigninCard(session) {
     return new builder.SigninCard(session)
         .text('You can ask me anything regarding meetups. But first, please authenticate with Meetup.com')
         .button('Sign-in', redirectUri)
-
 }
 
+function createHeroCard(session, cardTitle, cardSubtitle, cardText) {
+    return new builder.HeroCard(session)
+        .title(cardTitle)
+        .subtitle(cardSubtitle)
+        .text(cardText)
+        .images(getSHeroCardImage(session))
+        .buttons(getHeroCardAction(session));
+}
 
+function getHeroCardImage(session) {
+    return [
+        builder.CardImage.create(session, 'https://upload.wikimedia.org/wikipedia/commons/7/73/Meetup_Logo_2015.png')
+    ];
+}
+
+function getHeroCardAction(session) {
+    return [
+        builder.CardAction.openUrl(session, url, 'Find out more')
+    ];
+
+}
 
 // Create oauth callback endpoint
 server.get("/api/oauthcallback", function (req, res, next) {  
@@ -228,8 +249,17 @@ intents.matches('getDate', [
             // search date for this event 
             session.send("Looking for the date of the next " + results.response + " meetup");
             city = session.userData.city;
-            getMeetupDate(results.response, function(d){ if(d.toString()) session.send(d.toString()); else session.send("I'm sorry, I could not find any event called " + results.response + ".")  });
-                      
+            getMeetupDate(results.response, function(d){ 
+                if(d.toString()) {
+                    session.send(d.toString()); 
+                    var card = createHeroCard(session, name, name, d.toString());
+                    // attach the card to the reply message
+                    var msg = new builder.Message(session).addAttachment(card);
+                    session.send(msg);            
+                }
+                else session.send("I'm sorry, I could not find any event called " + results.response + ".")  
+            });
+            
         } else {
             session.send("Ok");
         }
@@ -281,7 +311,9 @@ client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=pu
         for (i = 0; i < events.results.length; i++) {
 
         if(events.results[i].group.name.toLowerCase().includes(name.toLowerCase())) {
-             d = new Date(events.results[i].time); // Set the date to the epoch             
+             d = new Date(events.results[i].time); // Set the date to the epoch  
+             name = events.results[i].name;
+             url = events.results[i].event_url;           
          }
             
         }
@@ -311,7 +343,11 @@ client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=pu
         for (i = 0; i < events.results.length; i++) {
 
         if(events.results[i].group.name.toLowerCase().includes(name.toLowerCase())) {
-             l = events.results[i].venue.address_1; //location of the venue          
+             l = events.results[i].venue.address_1; //location of the venue     
+             name = events.results[i].name;
+             url = events.results[i].event_url;
+
+
          }           
         }
         callback(l);
