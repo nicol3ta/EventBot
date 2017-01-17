@@ -228,6 +228,7 @@ intents.matches('getDate', [
         if (results.response) {
             // search date for this event 
             session.send("Looking for the date of the next " + results.response + " meetup");
+            city = session.userData.city;
             getMeetupDate(results.response, function(d){ if(d.toString()) session.send(d.toString()); else session.send("I'm sorry, I could not find any event called " + results.response + ".")  });
                       
         } else {
@@ -272,7 +273,7 @@ var client = restify.createStringClient({
 
 var d = "";
 
-client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+session.userData.city+'&page=20', function(err, req, res, obj) {
+client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+city+'&page=20', function(err, req, res, obj) {
     assert.ifError(err);
     console.log("hmm");
     console.log("we got smth :" + obj);
@@ -302,7 +303,7 @@ var client = restify.createStringClient({
 
 var l = "";
 
-client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+session.userData.city+'&page=20', function(err, req, res, obj) {
+client.get('/2/open_events/?access_token='+oauth_token+'&sign=true&photo-host=public&country=de&category=34&text='+name+'&city='+city+'&page=20', function(err, req, res, obj) {
     assert.ifError(err);
     console.log("hmm");
     console.log("we got smth :" + obj);
