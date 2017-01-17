@@ -202,7 +202,9 @@ intents.matches('getDate', [
         var location = builder.EntityRecognizer.findEntity(args.entities, 'Location');
         if(location) {
             session.userData.city = location.entity;
-        } 
+        }else {
+            session.userData.city = city;
+        }
         if(!session.userData.city) {
             builder.Prompts.text(session, "In which city do you need informations about Meetups?" ); 
         }
