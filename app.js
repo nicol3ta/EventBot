@@ -152,7 +152,6 @@ bot.dialog('/', intents);
 */
 
 // Add intent handlers
-
 intents.matches('welcome', [
     function (session) { 
         if(!oauth_token){           
@@ -168,7 +167,7 @@ intents.matches('welcome', [
 ]);
 
 /*
-intents.matches('whielcome', [
+intents.matches('welcome', [
     function (session) { 
             builder.Prompts.text(session, "Hey there, in which city do you need informations about Meetups?" ); 
      }, 
@@ -203,9 +202,7 @@ intents.matches('getDate', [
         var location = builder.EntityRecognizer.findEntity(args.entities, 'Location');
         if(location) {
             session.userData.city = location.entity;
-        }else {
-            session.userData.city = null;
-        }
+        } 
         if(!session.userData.city) {
             builder.Prompts.text(session, "In which city do you need informations about Meetups?" ); 
         }
